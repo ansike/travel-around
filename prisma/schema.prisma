@@ -1,0 +1,50 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// 活动表
+model Activity {
+  id                Int      @id @default(autoincrement())
+  title             String   @unique
+  desc              String?
+  location          String
+  enrollStartTime   String // 活动报名开始时间
+  enrollEndTime     String // 活动报名结束时间
+  gatherStartTime   String // 活动集合开始时间
+  gatherEndTime     String // 活动集合结束时间
+  activityStartTime String // 活动开始时间
+  activityEndTime   String // 活动结束时间
+  enroll            Enroll[]
+  personLimit       Int
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// 活动报名表
+model Enroll {
+  id         Int      @id @default(autoincrement())
+  Activity   Activity @relation(fields: [activityId], references: [id])
+  activityId Int
+  user       User     @relation(fields: [userId], references: [id])
+  userId     Int
+  phone      String // 报名人的手机号
+  children   Json // 活动包含的儿童信息
+}
+
+model User {
+  id     Int      @id @default(autoincrement())
+  name   String
+  phone  String   @unique
+  Enroll Enroll[]
+}

@@ -36,3 +36,29 @@ The easiest way to deploy your Next.js app is to use the [Vercel Platform](https
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
 
 <!-- icon https://www.iconfont.cn/search/index?searchType=icon&q=travel&page=7&tag=complex -->
+
+## 使用 prisma
+
+https://www.prisma.io/migrate
+https://juejin.cn/post/7153283997060202527#heading-16
+
+1. 安装 Prisma CLI 作为开发依赖项
+   ```shell
+   yarn add -D prisma
+   ```
+2. 初始化 Prisma
+   ```shell
+   npx prisma init
+   ```
+3. 编写 model
+4. 迁移数据库
+   每次表结构变动都需要执行一次
+   ```shell
+   npx prisma migrate dev --name "init"
+   ```
+5. 插入初始数据
+   创建 ./prisma/seed.ts 文件准备插入数据
+   ```shell
+   yarn add ts-node --dev
+   npx ts-node ./prisma/seed.ts
+   ```
