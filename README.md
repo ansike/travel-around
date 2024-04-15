@@ -37,6 +37,12 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 <!-- icon https://www.iconfont.cn/search/index?searchType=icon&q=travel&page=7&tag=complex -->
 
+## 启动依赖服务
+
+```shell
+docker-compose up -d
+```
+
 ## 使用 prisma
 
 https://www.prisma.io/migrate
