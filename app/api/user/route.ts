@@ -21,7 +21,7 @@ export async function POST(req: NextRequest) {
   try {
     const user = await prisma.user.create({ data });
     return Response.json(user);
-  } catch (error) {
+  } catch (error: any) {
     return Response.json({ message: error?.message || "server error" });
   }
 }
