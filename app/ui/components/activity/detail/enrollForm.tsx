@@ -79,7 +79,7 @@ export default function EnrollForm() {
         }
       >
         <Form.Array
-          name="contacts"
+          name="participants"
           onAdd={(operation) =>
             operation.add({ name: "", sex: "", idCard: "" })
           }

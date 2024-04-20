@@ -1,12 +1,36 @@
+"use client";
 import Image from "next/image";
 import style from "./style.module.css";
 
-export default function Introduce() {
+type IntroduceProps = {
+  title?: string;
+  detail?: string;
+};
+export default function Introduce(props: IntroduceProps) {
+  const { title, detail } = props;
+  // console.log(detail);
+  // const router = useRouter();
+
+  // const handleAnchorClick = (e) => {
+  //   const targetLink = e.target.closest("a");
+  //   if (!targetLink) return;
+  //   e.preventDefault();
+
+  //   console.log(e);
+  //   // const redirectThis = fixLink(targetLink.href);
+
+  //   // router.push(`/${redirectThis}`);
+  // };
+
   return (
-    <>
-      <div className={style.title}>
-        聚玩公益【第799期】儿童活动：小小牙医职业体验（极光口腔，第四集）
-      </div>
+    <div className="detail">
+      {/* <div
+        // onClick={handleAnchorClick}
+        // onKeyPress={handleAnchorClick}
+        className="richtext"
+        dangerouslySetInnerHTML={{ __html: detail || "" }}
+      ></div> */}
+      <div className={style.title}>{title}</div>
       <div className={`${style.segment} text-red-500`}>已报名：儿童0人</div>
       <div className="text-red-500">报名开始时间：2024-04-18 10:00:00</div>
       <div className={`${style.segment} text-red-500`}>
@@ -125,6 +149,6 @@ export default function Introduce() {
           height="800"
         />
       </div>
-    </>
+    </div>
   );
 }

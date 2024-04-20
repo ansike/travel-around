@@ -1,3 +1,4 @@
+
 export type State = {
   errors?: {
     customerId?: string[];
@@ -7,6 +8,6 @@ export type State = {
   message?: string | null;
 };
 
-export async function createEnroll(prevState: State, formData: FormData) {
-    // 
+export async function fetchActivity(id: number) {
+
 }

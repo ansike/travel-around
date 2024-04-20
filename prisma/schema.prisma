@@ -17,29 +17,29 @@ datasource db {
 model Activity {
   id                Int      @id @default(autoincrement())
   title             String   @unique
-  desc              String?
-  location          String
-  enrollStartTime   String // 活动报名开始时间
-  enrollEndTime     String // 活动报名结束时间
-  gatherStartTime   String // 活动集合开始时间
-  gatherEndTime     String // 活动集合结束时间
-  activityStartTime String // 活动开始时间
-  activityEndTime   String // 活动结束时间
+  location          String?
+  enrollStartTime   DateTime? // 活动报名开始时间
+  enrollEndTime     DateTime? // 活动报名结束时间
+  gatherStartTime   DateTime? // 活动集合开始时间
+  gatherEndTime     DateTime? // 活动集合结束时间
+  activityStartTime DateTime? // 活动开始时间
+  activityEndTime   DateTime? // 活动结束时间
+  desc              String? // 活动描述 富文本
   enroll            Enroll[]
-  personLimit       Int
+  personLimit       Int?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
 
-// 活动报名表
+// 活动报名表，一个用户报名就是一条报名项，其中可能包含多个成员
 model Enroll {
-  id         Int      @id @default(autoincrement())
-  Activity   Activity @relation(fields: [activityId], references: [id])
-  activityId Int
-  user       User     @relation(fields: [userId], references: [id])
-  userId     Int
-  phone      String // 报名人的手机号
-  children   Json // 活动包含的儿童信息
+  id           Int      @id @default(autoincrement())
+  Activity     Activity @relation(fields: [activityId], references: [id])
+  activityId   Int
+  user         User     @relation(fields: [userId], references: [id]) // 报名人员
+  userId       Int
+  phone        String // 报名人的手机号
+  participants Json // 活动包含的人员信息
 }
 
 model User {
