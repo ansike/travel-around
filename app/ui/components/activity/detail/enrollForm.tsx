@@ -14,6 +14,7 @@ import {
   Selector,
   Stepper,
   TextArea,
+  Toast,
 } from "antd-mobile";
 import Link from "next/link";
 import { GenderOptions } from "../constant";
@@ -35,7 +36,7 @@ const options = [
 export default function EnrollForm() {
   const [form] = Form.useForm();
   const [personNumVisible, setPersonNumVisible] = useState(false);
-  const [childrenNum, setChildrenNum] = useState(1);
+  const [isChecked, setIsChecked] = useState(false);
   const initState = {};
   const [state, dispatch] = useFormState((val) => {
     console.log({ val });
@@ -44,24 +45,37 @@ export default function EnrollForm() {
 
   const personNumChange = (val: string) => {
     console.log({ val });
-    // setChildrenNum(val);
   };
 
-  console.log(state, childrenNum);
   useEffect(() => {
-    form.setFieldValue("contacts", [{ name: "", sex: "", idCard: "" }]);
+    form.setFieldValue("contacts", [{ name: "", idCard: "" }]);
   }, []);
 
+  const submit = (values: any) => {
+    if (!isChecked) {
+      Toast.show("请阅读《活动公约》并勾选");
+    }
+    console.log(values);
+    //
+  };
   return (
     <>
       <div className={style.title}>我要报名</div>
       <Form
+        onFinish={submit}
         form={form}
         layout="horizontal"
         footer={
-          <Button block type="submit" color="primary" size="large">
-            提交
-          </Button>
+          <>
+            <div className={style.checkPolicy}>
+              <Checkbox onChange={setIsChecked} />
+              &nbsp;已阅读&nbsp;<Link href="/policy">《活动公约》</Link>
+              且同意公约中的内容。
+            </div>
+            <Button block type="submit" color="primary" size="middle">
+              提交
+            </Button>
+          </>
         }
       >
         <Form.Array
@@ -104,12 +118,17 @@ export default function EnrollForm() {
             ))
           }
         </Form.Array>
-        <Form.Item name="phoneNumber" label="手机号码：">
+        <Form.Item
+          name="phoneNumber"
+          label="手机号码："
+          rules={[{ required: true, message: "手机号码不能为空" }]}
+        >
           <Input placeholder="请填写您的手机号码" />
         </Form.Item>
         <Form.Item
           name="remark"
           label="备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注："
+          initialValue=""
         >
           <Input placeholder="请填写您的的额外诉求" />
         </Form.Item>
@@ -126,12 +145,6 @@ export default function EnrollForm() {
           <div className={style.countdown}>
             报名倒计时 <span className={style.alertText}>2天1小时21分49秒</span>
           </div>
-          <Form.Item name="isChecked" noStyle>
-            <div className={style.checkPolicy}>
-              <Checkbox />
-              &nbsp;请仔细阅读&nbsp;<Link href="/policy">《活动公约》</Link>并勾选
-            </div>
-          </Form.Item>
         </Form.Item>
       </Form>
     </>
