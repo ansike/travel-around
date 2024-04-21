@@ -7,30 +7,30 @@ export const SignupFormSchema = z.object({
     .trim(),
   phone: z
     .string()
-    .min(11, { message: 'Phone must be 11 numbers.' })
+    .min(11, { message: '电话号码必须是11位数字' })
     .trim(),
   password: z
     .string()
-    .min(8, { message: 'Be at least 8 characters long' })
-    .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-    .regex(/[0-9]/, { message: 'Contain at least one number.' })
+    .min(8, { message: '密码长度至少为8' })
+    .regex(/[a-zA-Z]/, { message: '至少包含一个字母' })
+    .regex(/[0-9]/, { message: '至少包含一个数字' })
     .regex(/[^a-zA-Z0-9]/, {
-      message: 'Contain at least one special character.',
+      message: '至少包含一个特殊字符',
     })
     .trim(),
 })
 export const LoginFormSchema = z.object({
   phone: z
     .string()
-    .min(11, { message: 'Phone must be 11 numbers.' })
+    .min(11, { message: '电话号码必须是11位数字' })
     .trim(),
   password: z
     .string()
-    .min(8, { message: 'Be at least 8 characters long' })
-    .regex(/[a-zA-Z]/, { message: 'Contain at least one letter.' })
-    .regex(/[0-9]/, { message: 'Contain at least one number.' })
+    .min(8, { message: '密码长度至少为8' })
+    .regex(/[a-zA-Z]/, { message: '至少包含一个字母' })
+    .regex(/[0-9]/, { message: '至少包含一个数字' })
     .regex(/[^a-zA-Z0-9]/, {
-      message: 'Contain at least one special character.',
+      message: '至少包含一个特殊字符',
     })
     .trim(),
 })

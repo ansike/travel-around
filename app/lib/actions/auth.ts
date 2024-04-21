@@ -43,7 +43,7 @@ export async function signup(state: FormState, formData: FormData) {
   } catch (error: any) {
     console.log(error);
     return {
-      message: `An error occurred while creating your account(${error.message}).`,
+      message: `创建用户时出错了(${error.message}).`,
     };
   }
   redirect("/tab/home");
@@ -74,7 +74,7 @@ export async function login(state: FormState, formData: FormData) {
     });
     if (!user) {
       return {
-        message: `user is not exist.`,
+        message: `用户(${phone})不存在`,
       };
     }
     // 使用bcrypt比较提交的密码和数据库中的密码哈希
@@ -86,14 +86,14 @@ export async function login(state: FormState, formData: FormData) {
       await createSession(user.id);
     } else {
       // 密码不匹配，返回失败
-      return { success: false, message: 'phone and password is not match' };
+      return { success: false, message: '手机号和密码不匹配' };
     }
     // 4. Create user session
     // 5. Redirect user
   } catch (error: any) {
     console.log(error);
     return {
-      message: `An error occurred while creating your account(${error.message}).`,
+      message: `登录时出错了(${error.message}).`,
     };
   }
   redirect("/tab/home");
