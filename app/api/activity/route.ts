@@ -8,7 +8,10 @@ export async function GET(req: NextRequest) {
     return Response.json({ message: "activityId is required" });
   }
   try {
-    const activity = await prisma.activity.findUnique({ where: { id: +id } });
+    const activity = await prisma.activity.findUnique({
+      where: { id: +id },
+      include: { enroll: true },
+    });
     return Response.json(activity);
   } catch (error: any) {
     return Response.json({ message: error?.message || "server error" });

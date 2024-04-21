@@ -1,62 +1,33 @@
 "use client";
-import { useFormState } from "react-dom";
-// import { createEnroll } from "@/lib/actions";
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import { AddCircleOutline } from "antd-mobile-icons";
-import ChildrenItem from "./childrenItem";
-import {
-  Button,
-  Checkbox,
-  Form,
-  Input,
-  Picker,
-  Selector,
-  Stepper,
-  TextArea,
-  Toast,
-} from "antd-mobile";
+import { Button, Checkbox, Form, Input, Toast } from "antd-mobile";
 import Link from "next/link";
-import { GenderOptions } from "../constant";
+import { createEnroll } from "@/lib/data";
 
-const options = [
-  {
-    value: "1",
-    label: "一个儿童",
-  },
-  {
-    value: "2",
-    label: "二个儿童",
-  },
-  {
-    value: "3",
-    label: "三个儿童",
-  },
-];
-export default function EnrollForm() {
+type EnrollFormProps = {
+  activityId: number;
+};
+export default function EnrollForm(props: EnrollFormProps) {
+  const { activityId } = props;
   const [form] = Form.useForm();
-  const [personNumVisible, setPersonNumVisible] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
-  const initState = {};
-  const [state, dispatch] = useFormState((val) => {
-    console.log({ val });
-    return;
-  }, null);
 
-  const personNumChange = (val: string) => {
-    console.log({ val });
-  };
-
-  useEffect(() => {
-    form.setFieldValue("contacts", [{ name: "", idCard: "" }]);
-  }, []);
-
-  const submit = (values: any) => {
+  const submit = async (values: any) => {
     if (!isChecked) {
       Toast.show("请阅读《活动公约》并勾选");
     }
-    console.log(values);
-    //
+    const res = await fetch("/api/enroll", {
+      method: "POST",
+      body: JSON.stringify({
+        activityId,
+        userId: 2,
+        ...values,
+      }),
+    });
+    const data = await res.json();
+    console.log(data);
   };
   return (
     <>
@@ -96,6 +67,7 @@ export default function EnrollForm() {
               </a>
             </>
           )}
+          initialValue={[{ name: "", idCard: "" }]}
         >
           {(fields) =>
             fields.map(({ index }) => (
@@ -119,7 +91,7 @@ export default function EnrollForm() {
           }
         </Form.Array>
         <Form.Item
-          name="phoneNumber"
+          name="phone"
           label="手机号码："
           rules={[{ required: true, message: "手机号码不能为空" }]}
         >

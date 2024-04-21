@@ -1,13 +1,13 @@
 "use client";
 import Image from "next/image";
 import style from "./style.module.css";
+import { Activity, Enroll } from "@prisma/client";
 
 type IntroduceProps = {
-  title?: string;
-  detail?: string;
+  activity?: (Activity & { enroll: Enroll[] }) | null;
 };
 export default function Introduce(props: IntroduceProps) {
-  const { title, detail } = props;
+  const { activity } = props;
   // console.log(detail);
   // const router = useRouter();
 
@@ -24,19 +24,22 @@ export default function Introduce(props: IntroduceProps) {
 
   return (
     <div className="detail">
-      {/* <div
-        // onClick={handleAnchorClick}
-        // onKeyPress={handleAnchorClick}
-        className="richtext"
-        dangerouslySetInnerHTML={{ __html: detail || "" }}
-      ></div> */}
-      <div className={style.title}>{title}</div>
-      <div className={`${style.segment} text-red-500`}>已报名：儿童0人</div>
+  
+      <div className={style.title}>{activity?.title}</div>
+      <div className={`${style.segment} text-red-500`}>
+        已报名：{activity?.enroll.length}人
+      </div>
       <div className="text-red-500">报名开始时间：2024-04-18 10:00:00</div>
       <div className={`${style.segment} text-red-500`}>
         报名截至时间：2024-04-18 10:00:00
       </div>
-      <div className={style.segment}>
+      <div
+        // onClick={handleAnchorClick}
+        // onKeyPress={handleAnchorClick}
+        className="richtext"
+        dangerouslySetInnerHTML={{ __html: activity?.desc || "" }}
+      ></div>
+      {/* <div className={style.segment}>
         极光口腔为小朋友提供小小牙医亲子体验活动，让孩子在体验牙医的过程中深刻认识口腔的重要性，消除小朋友对医院的恐惧以及学习如何正确刷牙等口腔知识。活动纯公益，只收保险费。
       </div>
       <div className={style.segment}>
@@ -148,7 +151,7 @@ export default function Introduce(props: IntroduceProps) {
           width="400"
           height="800"
         />
-      </div>
+      </div> */}
     </div>
   );
 }

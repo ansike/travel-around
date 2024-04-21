@@ -3,8 +3,8 @@ import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   const data = await req.json();
-  console.log(data)
-  
+  console.log(data);
+
   if (!data.activityId) {
     return Response.json({ message: "activityId is required" });
   }
@@ -17,7 +17,10 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const enroll = await prisma.enroll.create({ data });
+    const enroll = await prisma.enroll.create({
+      data,
+      include: { user: true, activity: true },
+    });
     return Response.json(enroll);
   } catch (error: any) {
     return Response.json({ message: error?.message || "server error" });
