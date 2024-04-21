@@ -10,7 +10,7 @@ export default function Header() {
   const router = useRouter();
   return (
     <header
-      className={`flex flex-shrink-0 justify-between items-center px-4 shadow-sm ${style.header} `}
+      className={`flex flex-shrink-0 justify-between items-center px-4 shadow-sm bg-white ${style.header} `}
     >
       {isSecondPage ? (
         <div

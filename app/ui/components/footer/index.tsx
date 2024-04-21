@@ -30,7 +30,7 @@ export default function Footer() {
   const pathname = usePathname();
   return (
     <TabBar
-      style={{ borderTop: "solid 1px #ccc" }}
+      style={{ borderTop: "solid 1px #ccc", background:'white' }}
       safeArea
       defaultActiveKey={pathname}
       onChange={(val) => {
