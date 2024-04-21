@@ -1,11 +1,13 @@
-import Link from "next/link";
+import { fetchActivityList } from "@/lib/data";
+import ActivityItem from "@/ui/components/activity/list/item";
 
-export default function Home() {
+export default async function Home() {
+  const list = await fetchActivityList();
   return (
     <main className="flex flex-col">
-        activity-index
-        <br />
-        <Link href="/activity/1/detail"> go to detail</Link>
+      {list.map((item) => {
+        return <ActivityItem key={item.id} item={item}></ActivityItem>;
+      })}
     </main>
   );
 }

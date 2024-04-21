@@ -17,6 +17,19 @@ export async function fetchActivity(id: number) {
   return null;
 }
 
+export async function fetchActivityList() {
+
+  try {
+    const activityList = await prisma.activity.findMany({
+      include: { enroll: true },
+    });
+    return activityList;
+  } catch (error) {
+    console.log(error);
+  }
+  return [];
+}
+
 export async function createEnroll(data: any) {
   try {
     const enroll = await prisma.enroll.create({
