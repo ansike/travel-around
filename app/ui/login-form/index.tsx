@@ -35,7 +35,7 @@ export function LoginForm() {
         maxLength={11}
       />
       {state?.errors?.phone && (
-        <p className="text-red-400">{state.errors.phone}</p>
+        <p className="text-red-400 mt-1">{state.errors.phone}</p>
       )}
       <Input
         autoComplete="new-password"
@@ -47,7 +47,7 @@ export function LoginForm() {
         placeholder="请输入密码"
       />
       {state?.errors?.password && (
-        <div className="text-red-400">
+        <div className="text-red-400 mt-1">
           <p>密码必须满足以下条件:</p>
           <ul>
             {state.errors.password.map((error) => (
@@ -56,7 +56,7 @@ export function LoginForm() {
           </ul>
         </div>
       )}
-      <p className="text-red-400">{state?.message}</p>
+      <p className="text-red-400 mt-1">{state?.message}</p>
       <br />
       <LoginButton />
     </form>

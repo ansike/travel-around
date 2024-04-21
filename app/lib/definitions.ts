@@ -3,7 +3,7 @@ import { z } from 'zod'
 export const SignupFormSchema = z.object({
   name: z
     .string()
-    .min(2, { message: 'Name must be at least 2 characters long.' })
+    .min(2, { message: '用户名至少2个字符' })
     .trim(),
   phone: z
     .string()
