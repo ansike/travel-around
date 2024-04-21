@@ -2,7 +2,7 @@
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import { AddCircleOutline } from "antd-mobile-icons";
-import { Button, Checkbox, Form, Input, Toast } from "antd-mobile";
+import { Button, Checkbox, Footer, Form, Input, Toast } from "antd-mobile";
 import Link from "next/link";
 import { createEnroll } from "@/lib/data";
 
@@ -119,6 +119,7 @@ export default function EnrollForm(props: EnrollFormProps) {
           </div>
         </Form.Item>
       </Form>
+      <Footer content="@ 2024-2030 cddwlp.cn All rights reserved" />
     </>
   );
 }

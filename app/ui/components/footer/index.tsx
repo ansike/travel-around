@@ -1,13 +1,45 @@
-'use client'
-import Link from "next/link";
-import style from "./style.module.css";
+"use client";
+import { TabBar } from "antd-mobile";
+import {
+  AppOutline,
+  UnorderedListOutline,
+  UserOutline,
+} from "antd-mobile-icons";
+import { usePathname, useRouter } from "next/navigation";
+
+const tabs = [
+  {
+    key: "/tab/home",
+    title: "首页",
+    icon: <AppOutline />,
+  },
+  {
+    key: "/tab/activity",
+    title: "活动",
+    icon: <UnorderedListOutline />,
+  },
+  {
+    key: "/tab/user",
+    title: "我的",
+    icon: <UserOutline />,
+  },
+];
 
 export default function Footer() {
+  const router = useRouter();
+  const pathname = usePathname();
   return (
-    <footer className={`flex flex-shrink-0 border-t items-center justify-around px-5 ${style.footer}`}>
-      <Link href="/home">集锦</Link><br />
-      <Link href="/activity">活动</Link><br />
-      <Link href="/user">我的</Link>
-    </footer>
+    <TabBar
+      style={{ borderTop: "solid 1px #ccc" }}
+      safeArea
+      defaultActiveKey={pathname}
+      onChange={(val) => {
+        router.push(val);
+      }}
+    >
+      {tabs.map((item) => (
+        <TabBar.Item key={item.key} icon={item.icon} title={item.title} />
+      ))}
+    </TabBar>
   );
 }
