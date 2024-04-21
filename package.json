@@ -11,12 +11,16 @@
   },
   "dependencies": {
     "@prisma/client": "^5.12.1",
+    "@types/bcrypt": "^5.0.2",
     "antd-mobile": "^5.35.0",
+    "bcrypt": "^5.1.1",
     "dayjs": "^1.11.10",
+    "jose": "^5.2.4",
     "next": "14.2.1",
     "react": "^18",
     "react-dom": "^18",
-    "react-mobile-datepicker": "^4.0.2"
+    "react-mobile-datepicker": "^4.0.2",
+    "zod": "^3.22.5"
   },
   "devDependencies": {
     "@types/node": "^20",

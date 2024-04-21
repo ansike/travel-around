@@ -44,8 +44,9 @@ model Enroll {
 }
 
 model User {
-  id     Int      @id @default(autoincrement())
-  name   String
-  phone  String   @unique
-  enroll Enroll[]
+  id       Int      @id @default(autoincrement())
+  name     String
+  phone    String   @unique
+  password String   @default("qazqwe")
+  enroll   Enroll[]
 }
