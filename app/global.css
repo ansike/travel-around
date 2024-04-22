@@ -41,22 +41,50 @@ body,
     helvetica, segoe ui, arial, roboto, "PingFang SC", "miui",
     "Hiragino Sans GB", "Microsoft Yahei", sans-serif;
 }
-
-.adm-form-item-label{
-  line-height: 2!important;
+h1 {
+  font-size: 2em;
+  margin: 0.67em 0;
+}
+h2 {
+  font-size: 1.5em;
+  margin: 0.75em 0;
+}
+h3 {
+  font-size: 1.17em;
+  margin: 0.83em 0;
+}
+h5 {
+  font-size: 0.83em;
+  margin: 1.5em 0;
+}
+h6 {
+  font-size: 0.75em;
+  margin: 1.67em 0;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: bolder;
 }
 
-.adm-list-item-content-main{
+.adm-form-item-label {
+  line-height: 2 !important;
+}
+
+.adm-list-item-content-main {
   display: flex;
   align-items: center;
 }
-.adm-list-default .adm-list-body{
-  border-bottom: 0!important;
+.adm-list-default .adm-list-body {
+  border-bottom: 0 !important;
 }
-.adm-form-footer{
-  padding-top: 8px!important;
+.adm-form-footer {
+  padding-top: 8px !important;
 }
-.adm-checkbox .adm-checkbox-icon{
-  width: 15px!important;
-  height: 15px!important;
+.adm-checkbox .adm-checkbox-icon {
+  width: 15px !important;
+  height: 15px !important;
 }
