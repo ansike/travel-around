@@ -24,7 +24,6 @@ export async function signup(state: FormState, formData: FormData) {
   const { name, phone, password } = validatedFields.data;
   // e.g. Hash the user's password before storing it
   const hashedPassword = await bcrypt.hash(password, 10);
-  console.log({ hashedPassword });
 
   try {
     // 3. Insert the user into the database or call an Library API
@@ -35,7 +34,6 @@ export async function signup(state: FormState, formData: FormData) {
         password: hashedPassword,
       },
     });
-    console.log(user);
     // Current steps:
     // 4. Create user session
     await createSession(user.id);

@@ -32,7 +32,7 @@ export default function Footer() {
     <TabBar
       style={{ borderTop: "solid 1px #ccc", background:'white' }}
       safeArea
-      defaultActiveKey={pathname}
+      activeKey={pathname}
       onChange={(val) => {
         router.push(val);
       }}

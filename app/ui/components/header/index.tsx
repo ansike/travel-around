@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 
+const showUser = ["/tab/home", "/tab/activity"];
 export default function Header() {
   const pathname = usePathname();
   const isSecondPage = pathname?.includes("detail");
@@ -14,16 +15,13 @@ export default function Header() {
     >
       {isSecondPage ? (
         <div
-        className="flex items-center"
+          className="flex items-center"
           onClick={() => {
             router.back();
           }}
         >
           <Image src="/svgs/back.svg" alt="back icon" width="14" height="10" />
-          <span className="text-sm">
-
-          返回
-          </span>
+          <span className="text-sm">返回</span>
         </div>
       ) : (
         <Link href="/home">
@@ -39,8 +37,8 @@ export default function Header() {
           </div>
         </Link>
       )}
-      {!isSecondPage && (
-        <Link href="/user">
+      {showUser.includes(pathname) && (
+        <Link href="/tab/user">
           <Image src="/svgs/user.svg" alt="user" width={20} height={20} />
         </Link>
       )}
