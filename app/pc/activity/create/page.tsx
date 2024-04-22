@@ -1,10 +1,22 @@
 import { CreateActivityForm } from "@/ui/components/activity/create-form";
+import { ConfigProvider } from "antd";
+import type { ThemeConfig } from "antd";
+
+const theme: ThemeConfig = {
+  token: {
+    fontSize: 12,
+    colorPrimary: "#52c41a",
+    size: 12,
+  },
+};
 
 export default function Page() {
   return (
-    <div className="w-full h-full flex justify-center ">
-      <div>创建活动</div>
-      <CreateActivityForm />
-    </div>
+    <ConfigProvider theme={theme}>
+      <div className="w-full h-full flex justify-center ">
+        <div>创建活动</div>
+        <CreateActivityForm />
+      </div>
+    </ConfigProvider>
   );
 }

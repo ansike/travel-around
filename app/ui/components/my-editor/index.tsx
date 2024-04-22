@@ -41,7 +41,7 @@ function MyEditor() {
   console.log(html);
   return (
     <>
-      <div style={{ border: "1px solid #ccc", zIndex: 100, width: 500, height:500, fontSize:14 }}>
+      <div style={{ border: "1px solid #ccc", zIndex: 100, width: 500, height:800, fontSize:14 }}>
         <Toolbar
           editor={editor}
           defaultConfig={toolbarConfig}

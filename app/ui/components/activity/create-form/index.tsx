@@ -1,27 +1,15 @@
 "use client";
 
-import { login } from "@/lib/actions/auth";
-import { Button, Input } from "antd-mobile";
+import { Button, Form, Input } from "antd";
 import { useFormState, useFormStatus } from "react-dom";
 import Quill from "quill";
 import "quill/dist/quill.core.css";
-import { useEffect, useLayoutEffect } from "react";
+import { useLayoutEffect } from "react";
 import MyEditor from "../../my-editor";
+import "./style.css";
 
 export function LoginButton() {
   const { pending } = useFormStatus();
-
-  useLayoutEffect(() => {
-    const options = {
-      debug: "info",
-      modules: {
-        toolbar: true,
-      },
-      placeholder: "Compose an epic...",
-      theme: "snow",
-    };
-    const quill = new Quill("#editor", options);
-  }, []);
 
   return (
     <Button
@@ -37,49 +25,42 @@ export function LoginButton() {
 }
 
 export function CreateActivityForm() {
-  const [state, action] = useFormState(login, undefined);
+  // const [state, action] = useFormState(login, undefined);
   return (
     <>
-      {/* <form action={action} className="mt-10 w-72">
-        <Input
-          autoComplete="off"
-          className="peer block w-full cursor-pointer rounded-md py-2 px-4 text-sm outline-2 placeholder:text-gray-500 "
-          style={{ background: "#F7F8FA", color: "#969799", letterSpacing: 2 }}
-          inputMode="numeric"
-          id="phone"
-          name="phone"
-          placeholder="请输入手机号"
-          maxLength={11}
-        />
-        {state?.errors?.phone && (
-          <p className="text-red-400 mt-1">{state.errors.phone}</p>
-        )}
-        <Input
-          autoComplete="new-password"
-          style={{ background: "#F7F8FA", color: "#969799", letterSpacing: 2 }}
-          id="password"
-          name="password"
-          type="password"
-          className="peer block w-full cursor-pointer rounded-md py-2 px-4 text-sm outline-2 placeholder:text-gray-500 mt-4"
-          placeholder="请输入密码"
-        />
-        {state?.errors?.password && (
-          <div className="text-red-400 mt-1">
-            <p>密码必须满足以下条件:</p>
-            <ul>
-              {state.errors.password.map((error) => (
-                <li key={error}>- {error}</li>
-              ))}
-            </ul>
-          </div>
-        )}
-        <p className="text-red-400 mt-1">{state?.message}</p>
+      <Form className="mt-10 w-72">
+        <Form.Item label="活动标题：">
+          <Input
+            size="small"
+            autoComplete="off"
+            name="title"
+            placeholder="请输入活动标题"
+            maxLength={120}
+          />
+        </Form.Item>
+        <Form.Item label="活动地点：">
+          <Input
+            size="small"
+            autoComplete="new-password"
+            name="location"
+            placeholder="请输入活动地点"
+          />
+        </Form.Item>
+        <Form.Item label="人数限制：">
+          {/* <Stepper
+            defaultValue={1}
+            onChange={(value) => {
+              console.log(value);
+            }}
+          /> */}
+        </Form.Item>
+        <Form.Item label="报名时间："></Form.Item>
 
         <br />
 
         <LoginButton />
-      </form> */}
-      <MyEditor />
+      </Form>
+      {/* <MyEditor /> */}
     </>
   );
 }

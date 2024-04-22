@@ -17,13 +17,12 @@ datasource db {
 model Activity {
   id                Int       @id @default(autoincrement())
   title             String    @unique
-  location          String?
+  location          String
   enrollStartTime   DateTime? // 活动报名开始时间
   enrollEndTime     DateTime? // 活动报名结束时间
-  gatherStartTime   DateTime? // 活动集合开始时间
-  gatherEndTime     DateTime? // 活动集合结束时间
-  activityStartTime DateTime? // 活动开始时间
-  activityEndTime   DateTime? // 活动结束时间
+  activityStartTime DateTime // 活动开始时间
+  activityEndTime   DateTime // 活动结束时间
+  cover             String? // 活动封面图
   desc              String? // 活动描述 富文本
   enroll            Enroll[]
   personLimit       Int?
