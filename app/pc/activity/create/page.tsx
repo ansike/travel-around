@@ -5,7 +5,7 @@ import type { ThemeConfig } from "antd";
 const theme: ThemeConfig = {
   token: {
     fontSize: 12,
-    colorPrimary: "#52c41a",
+    // colorPrimary: "#52c41a",
     size: 12,
   },
 };
@@ -13,8 +13,8 @@ const theme: ThemeConfig = {
 export default function Page() {
   return (
     <ConfigProvider theme={theme}>
-      <div className="w-full h-full flex justify-center ">
-        <div>创建活动</div>
+      <div className="w-full h-full flex flex-col items-center" >
+        <h1 className="">创建活动</h1>
         <CreateActivityForm />
       </div>
     </ConfigProvider>

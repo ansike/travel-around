@@ -38,7 +38,6 @@ function MyEditor() {
     };
   }, [editor]);
 
-  console.log(html);
   return (
     <>
       <div style={{ border: "1px solid #ccc", zIndex: 100, width: 500, height:800, fontSize:14 }}>
