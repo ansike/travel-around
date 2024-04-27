@@ -23,8 +23,7 @@ export default function Introduce(props: IntroduceProps) {
   // };
 
   return (
-    <div className="detail">
-  
+    <div className="detail mb-10">
       <div className={style.title}>{activity?.title}</div>
       <div className={`${style.segment} text-red-500`}>
         已报名：{activity?.enroll.length}人

@@ -30,7 +30,7 @@ export default function EnrollForm(props: EnrollFormProps) {
     console.log(data);
   };
   return (
-    <>
+    <div className="pb-20">
       <div className={style.title}>我要报名</div>
       <Form
         onFinish={submit}
@@ -62,9 +62,11 @@ export default function EnrollForm(props: EnrollFormProps) {
           renderHeader={({ index }, { remove }) => (
             <>
               <span>联系人{index + 1}</span>
-              <a onClick={() => remove(index)} style={{ float: "right" }}>
-                删除
-              </a>
+              {index != 0 && (
+                <a onClick={() => remove(index)} style={{ float: "right" }}>
+                  删除
+                </a>
+              )}
             </>
           )}
           initialValue={[{ name: "", idCard: "" }]}
@@ -119,7 +121,6 @@ export default function EnrollForm(props: EnrollFormProps) {
           </div>
         </Form.Item>
       </Form>
-      <Footer content="@ 2024-2030 cddwlp.cn All rights reserved" />
-    </>
+    </div>
   );
 }
