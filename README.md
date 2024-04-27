@@ -68,3 +68,9 @@ https://juejin.cn/post/7153283997060202527#heading-16
    yarn add ts-node --dev
    npx ts-node ./prisma/seed.ts
    ```
+
+### 后台运行
+
+```shell
+nohup yarn start & disown
+```
