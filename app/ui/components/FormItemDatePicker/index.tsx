@@ -40,8 +40,8 @@ export default function FormItemDatePicker(props: FormItemDatePickerProps) {
         onCancel={() => {
           setDateVisible(false);
         }}
-        onSelect={(a) => {
-          console.log(a)
+        onSelect={(a: any) => {
+          console.log(a);
           onChange?.(a);
           setDateVisible(false);
         }}
