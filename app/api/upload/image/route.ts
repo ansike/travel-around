@@ -16,13 +16,13 @@ export async function POST(req: NextRequest, res: NextResponse) {
     }
     await writeFile(filePath, data);
     return NextResponse.json(
-      { code: 200, data: `/upload/img/${name}` },
+      { errno: 0, data: { url: `/upload/img/${name}` } },
       { status: 200 }
     );
   } catch (error) {
     console.log("error", error);
     return NextResponse.json(
-      { message: "上传失败", code: -1 },
+      { message: "上传失败", errno: 1 },
       { status: 400 }
     );
   }

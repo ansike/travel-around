@@ -24,16 +24,17 @@ export default function ActivityItem(props: ItemProps) {
       >
         <Image
           style={{ width: "212px", marginRight: 10 }}
-          src="/imgs/845_121546.jpg"
+          src={item.cover || "/imgs/845_121546.jpg"}
           alt="img"
         />
-        <div>
+        <div className="flex-grow">
           <div>{item.title}</div>
           <div
             style={{
               height: 30,
               display: "flex",
               alignItems: "center",
+              color:'black'
             }}
           >
             <DownFill style={{ rotate: "180deg" }} /> &nbsp; 已报名

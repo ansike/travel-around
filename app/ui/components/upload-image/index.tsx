@@ -1,3 +1,4 @@
+'use client'
 import { Upload, message } from "antd";
 import ImgCrop from "antd-img-crop";
 import type { GetProp, UploadProps } from "antd";
@@ -33,9 +34,9 @@ export function UploadImage(props: UploadImageProps) {
       setLoading(true);
       return;
     }
-    if (info.file.status === "done" && info.file.response.code) {
+    if (info.file.status === "done" && info.file.response.data) {
       console.log(info.file.response.data);
-      onChange?.(info.file.response.data);
+      onChange?.(info.file.response.data.url);
     }
   };
 

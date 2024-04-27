@@ -1,3 +1,5 @@
+"use client";
+
 import "@wangeditor/editor/dist/css/style.css"; // 引入 css
 import React, { useState, useEffect } from "react";
 import { Editor, Toolbar } from "@wangeditor/editor-for-react";
@@ -8,7 +10,7 @@ type MyEditorProps = {
   onChange?: (val: string) => void;
 };
 function MyEditor(props: MyEditorProps) {
-  const {value, onChange} = props;
+  const { value, onChange } = props;
   // editor 实例
   const [editor, setEditor] = useState<IDomEditor | null>(null); // TS 语法
   // const [editor, setEditor] = useState(null)                   // JS 语法
@@ -32,6 +34,13 @@ function MyEditor(props: MyEditorProps) {
     // TS 语法
     // const editorConfig = {                         // JS 语法
     placeholder: "请输入内容...",
+    MENU_CONF: {
+      uploadImage: {
+        allowedFileTypes: ["image/*"],
+        fieldName: "file",
+        server: "/api/upload/image",
+      },
+    },
   };
 
   // 及时销毁 editor ，重要！
@@ -65,7 +74,7 @@ function MyEditor(props: MyEditorProps) {
           onCreated={setEditor}
           onChange={(editor) => onChange?.(editor.getHtml())}
           mode="default"
-          style={{ height: "300px", overflowY: "hidden" }}
+          style={{ height: "500px", overflowY: "hidden" }}
         />
       </div>
     </>

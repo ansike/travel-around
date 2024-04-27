@@ -2,38 +2,74 @@
 import style from "./style.module.css";
 import { useEffect, useState } from "react";
 import { AddCircleOutline } from "antd-mobile-icons";
-import { Button, Checkbox, Footer, Form, Input, Toast } from "antd-mobile";
+import { Button, Checkbox, Form, Input, Toast } from "antd-mobile";
 import Link from "next/link";
-import { createEnroll } from "@/lib/data";
 
 type EnrollFormProps = {
   activityId: number;
+  enroll?: any;
 };
 export default function EnrollForm(props: EnrollFormProps) {
-  const { activityId } = props;
+  const { activityId, enroll } = props;
   const [form] = Form.useForm();
   const [isChecked, setIsChecked] = useState(false);
+  const [isDisable, setIsDisable] = useState(false);
 
-  const submit = async (values: any) => {
-    if (!isChecked) {
-      Toast.show("请阅读《活动公约》并勾选");
+  console.log(enroll);
+  useEffect(() => {
+    if (enroll) {
+      setIsDisable(true);
+      form.setFieldsValue(enroll);
     }
-    const res = await fetch("/api/enroll", {
-      method: "POST",
-      body: JSON.stringify({
-        activityId,
-        userId: 2,
-        ...values,
-      }),
-    });
-    const data = await res.json();
-    console.log(data);
+  }, [enroll]);
+
+  const submit = async () => {
+    if (!isChecked) {
+      return Toast.show("请阅读《活动公约》并勾选");
+    }
+    const values = await form.validateFields();
+    if (enroll) {
+      console.log(enroll.id, activityId, values);
+      const res = await fetch("/api/enroll", {
+        method: "PUT",
+        body: JSON.stringify({
+          id: enroll.id,
+          activityId,
+          ...values,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.errNo === 0) {
+        Toast.show("编辑成功");
+        setIsDisable(true);
+      } else {
+        Toast.show("编辑失败");
+      }
+    } else {
+      const res = await fetch("/api/enroll", {
+        method: "POST",
+        body: JSON.stringify({
+          activityId,
+          ...values,
+        }),
+      });
+      const data = await res.json();
+      console.log(data);
+      if (data.errNo === 0) {
+        Toast.show("报名成功");
+        setIsDisable(true);
+      } else {
+        Toast.show("报名失败");
+      }
+    }
   };
+
   return (
     <div className="pb-20">
       <div className={style.title}>我要报名</div>
       <Form
-        onFinish={submit}
+        // onFinish={submit}
         form={form}
         layout="horizontal"
         footer={
@@ -43,9 +79,29 @@ export default function EnrollForm(props: EnrollFormProps) {
               &nbsp;已阅读&nbsp;<Link href="/policy">《活动公约》</Link>
               且同意公约中的内容。
             </div>
-            <Button block type="submit" color="primary" size="middle">
-              提交
-            </Button>
+            <div>
+              {isDisable ? (
+                <Button
+                  block
+                  type="submit"
+                  color="primary"
+                  size="middle"
+                  onClick={() => setIsDisable(false)}
+                >
+                  编辑
+                </Button>
+              ) : (
+                <Button
+                  block
+                  type="submit"
+                  color="primary"
+                  size="middle"
+                  onClick={submit}
+                >
+                  保存
+                </Button>
+              )}
+            </div>
           </>
         }
       >
@@ -75,6 +131,7 @@ export default function EnrollForm(props: EnrollFormProps) {
             fields.map(({ index }) => (
               <>
                 <Form.Item
+                  disabled={isDisable}
                   name={[index, "name"]}
                   label="姓名"
                   rules={[{ required: true, message: "姓名不能为空" }]}
@@ -82,6 +139,7 @@ export default function EnrollForm(props: EnrollFormProps) {
                   <Input placeholder="请输入姓名" />
                 </Form.Item>
                 <Form.Item
+                  disabled={isDisable}
                   name={[index, "idCard"]}
                   label="身份证"
                   rules={[{ required: true, message: "身份证号不能为空" }]}
@@ -93,6 +151,7 @@ export default function EnrollForm(props: EnrollFormProps) {
           }
         </Form.Array>
         <Form.Item
+          disabled={isDisable}
           name="phone"
           label="手机号码："
           rules={[{ required: true, message: "手机号码不能为空" }]}
@@ -100,6 +159,7 @@ export default function EnrollForm(props: EnrollFormProps) {
           <Input placeholder="请填写您的手机号码" />
         </Form.Item>
         <Form.Item
+          disabled={isDisable}
           name="remark"
           label="备&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注："
           initialValue=""

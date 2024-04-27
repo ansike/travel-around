@@ -1,33 +1,60 @@
 "use client";
 
-import { useState } from "react";
-import {
-  Button,
-  DatePicker,
-  Form,
-  Input,
-  InputNumber,
-  Upload,
-  message,
-} from "antd";
+import { useCallback, useEffect, useState } from "react";
+import { Button, DatePicker, Form, Input, InputNumber } from "antd";
 import { useForm } from "antd/es/form/Form";
-import ImgCrop from "antd-img-crop";
-import { useFormStatus } from "react-dom";
-import MyEditor from "../../my-editor";
-import "./style.css";
 import { UploadImage } from "../../upload-image";
-import { title } from "process";
+// import MyEditor from "../../my-editor";
+import "./style.css";
+import dayjs from "dayjs";
+import dynamic  from 'next/dynamic'
+
+const MyEditor = dynamic(
+  // 引入对应的组件 设置的组件参考上面的wangEditor react使用文档
+  () => import('../../my-editor'),
+  {ssr: false}
+)
 
 const { RangePicker } = DatePicker;
 
-export function CreateActivityForm() {
+type CreateActivityFormProps = {
+  id?: string;
+};
+export function CreateActivityForm(props: CreateActivityFormProps) {
+  const { id } = props;
   const [form] = useForm();
+
+  const getActivity = useCallback(async (id: string) => {
+    const res = await fetch(`/api/activity?id=${id}`);
+    const data = await res.json();
+
+    const activityTime = [
+      dayjs(data.activityEndTime),
+      dayjs(data.activityEndTime),
+    ];
+    const enrollTime = [dayjs(data.enrollStartTime), dayjs(data.enrollEndTime)];
+
+    form.setFieldsValue({ ...data, activityTime, enrollTime });
+  }, []);
+
+  useEffect(() => {
+    if (id) {
+      getActivity(id);
+    }
+  }, [id]);
 
   const save = async () => {
     try {
       const values = await form.validateFields();
-      const { title, location, activityTime, enrollTime, cover, desc } = values;
-      console.log(activityTime);
+      const {
+        title,
+        location,
+        activityTime,
+        enrollTime,
+        cover,
+        desc,
+        personLimit,
+      } = values;
       const [activityStartTime, activityEndTime] = activityTime;
       const [enrollStartTime, enrollEndTime] = enrollTime;
       const body = {
@@ -39,13 +66,26 @@ export function CreateActivityForm() {
         activityEndTime,
         enrollStartTime,
         enrollEndTime,
+        personLimit,
       };
-      const res = await fetch("/api/activity", {
-        method: "POST",
-        body: JSON.stringify(body),
-      });
-      const data = await res.json();
-      console.log(data);
+      if (id) {
+        const res = await fetch("/api/activity", {
+          method: "PUT",
+          body: JSON.stringify({
+            id: +id,
+            ...body
+          }),
+        });
+        const data = await res.json();
+        console.log(data);
+      } else {
+        const res = await fetch("/api/activity", {
+          method: "POST",
+          body: JSON.stringify(body),
+        });
+        const data = await res.json();
+        console.log(data);
+      }
     } catch (error) {
       console.error(error);
     }
