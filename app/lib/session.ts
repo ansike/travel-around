@@ -4,6 +4,7 @@ import { SessionPayload } from "@/lib/definitions";
 import { cookies } from "next/headers";
 
 const secretKey = process.env.SESSION_SECRET;
+console.log({secretKey})
 const encodedKey = new TextEncoder().encode(secretKey);
 
 export async function encrypt(payload: SessionPayload) {
@@ -31,7 +32,7 @@ export async function createSession(userId: number) {
 
   cookies().set("session", session, {
     httpOnly: true,
-    secure: true,
+    secure: false,
     expires: expiresAt,
     sameSite: "lax",
     path: "/",

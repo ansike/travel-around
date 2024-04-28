@@ -28,6 +28,7 @@ export function SignupForm() {
   const [visible, setVisible] = useState(false);
   const [isChecked, setIsChecked] = useState(false);
   const [state, action] = useFormState(signup, undefined);
+  
   return (
     <form
       action={(val) => {

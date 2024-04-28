@@ -78,6 +78,8 @@ export async function login(state: FormState, formData: FormData) {
     // 使用bcrypt比较提交的密码和数据库中的密码哈希
     const isPasswordMatch = await bcrypt.compare(password, user.password);
 
+    console.log(isPasswordMatch, user);
+
     // 根据比较结果，返回验证信息
     if (isPasswordMatch) {
       // 密码匹配，返回成功和用户信息
@@ -94,7 +96,7 @@ export async function login(state: FormState, formData: FormData) {
       message: `登录时出错了(${error.message}).`,
     };
   }
-  redirect("/tab/home");
+  redirect("/tab/user");
 }
 export async function logout() {
   deleteSession();

@@ -50,14 +50,13 @@ export async function POST(req: NextRequest) {
     return Response.json({ message: "participants is required" });
   }
 
-  const enroll = await prisma.enroll.findUnique({
+  const enroll = await prisma.enroll.findFirst({
     where: {
-      activityId_userId: {
-        activityId: +data.activityId,
-        userId: user.userId,
-      },
+      activityId: +data.activityId,
+      userId: user.userId
     },
   });
+  
   if (enroll) {
     return Response.json({ message: `当前用户${user.userId}已经报过名` });
   }

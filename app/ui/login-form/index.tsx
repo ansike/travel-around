@@ -2,21 +2,28 @@
 
 import { login } from "@/lib/actions/auth";
 import { Button, Input } from "antd-mobile";
+import Link from "next/link";
 import { useFormState, useFormStatus } from "react-dom";
 
 export function LoginButton() {
   const { pending } = useFormStatus();
 
   return (
-    <Button
-      aria-disabled={pending}
-      type="submit"
-      color="primary"
-      className="w-full rounded-full"
-      style={{ borderRadius: 20, marginTop: 20, height: 36 }}
-    >
-      {pending ? "登录中..." : "登录"}
-    </Button>
+    <div>
+      <Button
+        aria-disabled={pending}
+        type="submit"
+        color="primary"
+        className="w-full rounded-full"
+        style={{ borderRadius: 20, marginTop: 20, height: 36 }}
+      >
+        {pending ? "登录中..." : "登录"}
+      </Button>
+      <div className="mt-1 flex justify-between">
+        <span></span>
+        <Link href="/signup">去注册</Link>
+      </div>
+    </div>
   );
 }
 
