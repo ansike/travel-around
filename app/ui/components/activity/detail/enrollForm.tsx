@@ -60,7 +60,7 @@ export default function EnrollForm(props: EnrollFormProps) {
         Toast.show("报名成功");
         setIsDisable(true);
       } else {
-        Toast.show("报名失败");
+        Toast.show(data.message || "报名失败");
       }
     }
   };

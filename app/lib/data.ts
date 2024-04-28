@@ -24,16 +24,19 @@ export async function fetchActivityAndCurUser(id: number) {
   if (!id) {
     return null;
   }
-  const session = cookies().get("session");
-  const user = (await decrypt(session?.value)) as SessionUser;
   try {
     const activity = await prisma.activity.findUnique({
       where: { id: +id },
       include: { enroll: true },
     });
-    const enroll = await prisma.enroll.findFirst({
-      where: { activityId: +id, userId: user.userId },
-    });
+    const session = cookies().get("session");
+    const user = (await decrypt(session?.value)) as SessionUser;
+    let enroll;
+    if (user) {
+      enroll = await prisma.enroll.findFirst({
+        where: { activityId: +id, userId: user.userId },
+      });
+    }
     return {
       activity,
       enroll,
@@ -85,11 +88,11 @@ export async function getUser() {
         },
       });
       return user;
-    }else{
-      return null
+    } else {
+      return null;
     }
   } catch (error) {
     console.log(error);
-    return null
+    return null;
   }
 }

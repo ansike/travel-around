@@ -1,19 +1,19 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { Button, DatePicker, Form, Input, InputNumber } from "antd";
+import { Button, DatePicker, Form, Input, InputNumber, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { UploadImage } from "../../upload-image";
 // import MyEditor from "../../my-editor";
 import "./style.css";
 import dayjs from "dayjs";
-import dynamic  from 'next/dynamic'
+import dynamic from "next/dynamic";
 
 const MyEditor = dynamic(
   // 引入对应的组件 设置的组件参考上面的wangEditor react使用文档
-  () => import('../../my-editor'),
-  {ssr: false}
-)
+  () => import("../../my-editor"),
+  { ssr: false }
+);
 
 const { RangePicker } = DatePicker;
 
@@ -23,6 +23,7 @@ type CreateActivityFormProps = {
 export function CreateActivityForm(props: CreateActivityFormProps) {
   const { id } = props;
   const [form] = useForm();
+  const [messageApi, contextHolder] = message.useMessage();
 
   const getActivity = useCallback(async (id: string) => {
     const res = await fetch(`/api/activity?id=${id}`);
@@ -73,11 +74,12 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
           method: "PUT",
           body: JSON.stringify({
             id: +id,
-            ...body
+            ...body,
           }),
         });
         const data = await res.json();
         console.log(data);
+        messageApi.success("编辑成功");
       } else {
         const res = await fetch("/api/activity", {
           method: "POST",
@@ -85,9 +87,11 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
         });
         const data = await res.json();
         console.log(data);
+        messageApi.success("创建成功");
       }
     } catch (error) {
       console.error(error);
+      messageApi.success("失败");
     }
   };
 
@@ -160,6 +164,7 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
           </Button>
         </Form.Item>
       </Form>
+      {contextHolder}
       {/* <MyEditor /> */}
     </>
   );

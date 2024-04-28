@@ -38,7 +38,9 @@ export async function POST(req: NextRequest) {
   const data = await req.json();
   const session = cookies().get("session");
   const user = (await decrypt(session?.value)) as SessionUser;
-
+  if (!user) {
+    return Response.json({ message: "请登录后再操作" });
+  }
   if (!data.activityId) {
     return Response.json({ message: "activityId is required" });
   }
@@ -53,10 +55,10 @@ export async function POST(req: NextRequest) {
   const enroll = await prisma.enroll.findFirst({
     where: {
       activityId: +data.activityId,
-      userId: user.userId
+      userId: user.userId,
     },
   });
-  
+
   if (enroll) {
     return Response.json({ message: `当前用户${user.userId}已经报过名` });
   }
