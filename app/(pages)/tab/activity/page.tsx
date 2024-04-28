@@ -13,10 +13,10 @@ export default async function Home() {
           })}
         </>
       ) : (
-        <>
+        <div className="flex text-gray-400 w-full justify-center mt-10">
           List is empty
           {/* <ErrorBlock status="empty" /> */}
-        </>
+        </div>
       )}
     </main>
   );

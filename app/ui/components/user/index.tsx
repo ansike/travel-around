@@ -10,6 +10,7 @@ type PageProps = {
 export default function UserPage(props: PageProps) {
   const { user } = props;
   const router = useRouter();
+  
   const logout = async () => {
     try {
       await fetch("/api/logout", {

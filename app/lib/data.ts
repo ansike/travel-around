@@ -31,8 +31,8 @@ export async function fetchActivityAndCurUser(id: number) {
       where: { id: +id },
       include: { enroll: true },
     });
-    const enroll = await prisma.enroll.findUnique({
-      where: { activityId_userId: { activityId: +id, userId: user.userId } },
+    const enroll = await prisma.enroll.findFirst({
+      where: { activityId: +id, userId: user.userId },
     });
     return {
       activity,
@@ -85,8 +85,11 @@ export async function getUser() {
         },
       });
       return user;
+    }else{
+      return null
     }
   } catch (error) {
     console.log(error);
+    return null
   }
 }
