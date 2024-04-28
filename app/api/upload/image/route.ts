@@ -6,7 +6,8 @@ export async function POST(req: NextRequest, res: NextResponse) {
   try {
     const formData = await req.formData();
     const file = formData.get("file") as File;
-    const name = new Date().getTime();
+    const ext = file.type.split("/")[1];
+    const name = new Date().getTime() + "." + ext;
     const arrayBuffer = await file.arrayBuffer();
     const data = Buffer.from(arrayBuffer);
     const dir = `public/upload/img`;
