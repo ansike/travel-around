@@ -170,12 +170,12 @@ export default function EnrollForm(props: EnrollFormProps) {
         <Form.Item label=" 注&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;意：">
           本活动需支付短期意外险&nbsp;
           <span className={style.alertText}>5.00元</span>
-          /人(只需儿童投保，收取不退)
+          /人(收取不退)
         </Form.Item>
         <Form.Item noStyle>
           <div className={style.alert}>收费不退！请谨慎报名！</div>
 
-          <div className={style.enrollTime}>报名时间 2024-04-18 10:00:00</div>
+          <div className={style.enrollTime}>报名时间 2024-04-29 10:00:00</div>
           <div className={style.countdown}>
             报名倒计时 <span className={style.alertText}>2天1小时21分49秒</span>
           </div>
