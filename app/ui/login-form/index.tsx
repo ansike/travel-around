@@ -27,7 +27,7 @@ export function LoginButton() {
   );
 }
 
-export function LoginForm(props: { redirect: string }) {
+export function LoginForm(props: { redirect?: string }) {
   const { redirect } = props;
   const loginWithRedirect = login.bind(null, redirect || "/tab/user");
   const [state, action] = useFormState(loginWithRedirect, undefined);
