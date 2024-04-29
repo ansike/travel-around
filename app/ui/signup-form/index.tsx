@@ -44,7 +44,6 @@ export function SignupForm() {
         autoComplete="off"
         className="peer block w-full cursor-pointer rounded-md py-2 px-4 text-sm outline-2 placeholder:text-gray-500 "
         style={{ background: "#F7F8FA", color: "#969799", letterSpacing: 2 }}
-        inputMode="numeric"
         id="name"
         name="name"
         placeholder="请输入用户名"
