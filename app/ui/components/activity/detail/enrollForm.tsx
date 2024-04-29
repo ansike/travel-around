@@ -9,6 +9,16 @@ import dayjs from "dayjs";
 import { Countdown } from "./countdown";
 import { SessionUser } from "@/types/user";
 
+function validateIDCard(idCard: string) {
+  const pattern = /^\d{17}(\d|X|x)$/;
+  return pattern.test(idCard);
+}
+
+function validatePhoneNumber(phoneNumber: string) {
+  const pattern = /^1[0-9]{10}$/;
+  return pattern.test(phoneNumber);
+}
+
 type EnrollFormProps = {
   activity?: Activity;
   enroll?: Enroll | null;
@@ -20,7 +30,9 @@ export default function EnrollForm(props: EnrollFormProps) {
   const [isChecked, setIsChecked] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
 
-  const { countdown } = Countdown(activity?.enrollEndTime as unknown as string || "");
+  const { countdown } = Countdown(
+    (activity?.enrollEndTime as unknown as string) || ""
+  );
   useEffect(() => {
     if (enroll) {
       setIsDisable(true);
@@ -155,9 +167,21 @@ export default function EnrollForm(props: EnrollFormProps) {
                   disabled={isDisable}
                   name={[index, "idCard"]}
                   label="身份证"
-                  rules={[{ required: true, message: "身份证号不能为空" }]}
+                  validateFirst
+                  rules={[
+                    { required: true, message: "身份证号不能为空" },
+                    {
+                      validator(_, val, callback) {
+                        console.log({ val });
+                        if (!validateIDCard(val)) {
+                          return callback("请检查身份证是否正确");
+                        }
+                        callback();
+                      },
+                    },
+                  ]}
                 >
-                  <Input placeholder="请输入身份证号" />
+                  <Input maxLength={18} placeholder="请输入身份证号" />
                 </Form.Item>
               </>
             ))
@@ -167,9 +191,23 @@ export default function EnrollForm(props: EnrollFormProps) {
           disabled={isDisable}
           name="phone"
           label="手机号码："
-          rules={[{ required: true, message: "手机号码不能为空" }]}
+          rules={[
+            { required: true, message: "手机号码不能为空" },
+            {
+              validator(_, val, callback) {
+                if (!validatePhoneNumber(val)) {
+                  return callback("请检查手机号是否正确");
+                }
+                callback();
+              },
+            },
+          ]}
         >
-          <Input placeholder="请填写您的手机号码" />
+          <Input
+            inputMode="numeric"
+            maxLength={11}
+            placeholder="请填写您的手机号码"
+          />
         </Form.Item>
         <Form.Item
           disabled={isDisable}

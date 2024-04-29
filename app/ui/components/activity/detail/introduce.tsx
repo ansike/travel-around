@@ -10,11 +10,16 @@ type IntroduceProps = {
 export default function Introduce(props: IntroduceProps) {
   const { activity } = props;
 
+  console.log(activity?.enroll);
+  const participatns = (activity?.enroll || []).reduce((prev, cur) => {
+    prev.push(...cur.participants as any);
+    return prev;
+  }, [] as any);
   return (
     <div className="detail mb-10">
       <div className={style.title}>{activity?.title}</div>
       <div className={`${style.segment} text-red-500`}>
-        已报名：{activity?.enroll.length}人
+        已报名：{participatns.length}人
       </div>
       <div className="text-red-500">
         报名开始时间：
@@ -38,7 +43,6 @@ export default function Introduce(props: IntroduceProps) {
         className="richtext"
         dangerouslySetInnerHTML={{ __html: activity?.desc || "" }}
       ></div>
-      
     </div>
   );
 }
