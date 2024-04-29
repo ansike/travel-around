@@ -40,6 +40,7 @@ export async function fetchActivityAndCurUser(id: number) {
     return {
       activity,
       enroll,
+      user
     };
   } catch (error) {
     console.log(error);

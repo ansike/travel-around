@@ -1,7 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+
   images: {
-    domains: ['cddwlp.cn'],
+    remotePatterns: [{
+      hostname: "cddwlp.cn"
+    }]
   },
   async redirects() {
     return [

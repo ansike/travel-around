@@ -4,18 +4,23 @@ import { useEffect, useState } from "react";
 import { AddCircleOutline } from "antd-mobile-icons";
 import { Button, Checkbox, Form, Input, Toast } from "antd-mobile";
 import Link from "next/link";
+import { Activity, Enroll, User } from "@prisma/client";
+import dayjs from "dayjs";
+import { Countdown } from "./countdown";
+import { SessionUser } from "@/types/user";
 
 type EnrollFormProps = {
-  activityId: number;
-  enroll?: any;
+  activity?: Activity;
+  enroll?: Enroll | null;
+  user?: SessionUser | null;
 };
 export default function EnrollForm(props: EnrollFormProps) {
-  const { activityId, enroll } = props;
+  const { activity, enroll, user } = props;
   const [form] = Form.useForm();
   const [isChecked, setIsChecked] = useState(false);
   const [isDisable, setIsDisable] = useState(false);
 
-  console.log(enroll);
+  const { countdown } = Countdown(activity?.enrollEndTime as unknown as string || "");
   useEffect(() => {
     if (enroll) {
       setIsDisable(true);
@@ -29,12 +34,11 @@ export default function EnrollForm(props: EnrollFormProps) {
     }
     const values = await form.validateFields();
     if (enroll) {
-      console.log(enroll.id, activityId, values);
       const res = await fetch("/api/enroll", {
         method: "PUT",
         body: JSON.stringify({
           id: enroll.id,
-          activityId,
+          activityId: activity?.id,
           ...values,
         }),
       });
@@ -50,12 +54,12 @@ export default function EnrollForm(props: EnrollFormProps) {
       const res = await fetch("/api/enroll", {
         method: "POST",
         body: JSON.stringify({
-          activityId,
+          activityId: activity?.id,
           ...values,
         }),
       });
       const data = await res.json();
-      console.log(data);
+
       if (data.errNo === 0) {
         Toast.show("报名成功");
         setIsDisable(true);
@@ -69,7 +73,6 @@ export default function EnrollForm(props: EnrollFormProps) {
     <div className="pb-20">
       <div className={style.title}>我要报名</div>
       <Form
-        // onFinish={submit}
         form={form}
         layout="horizontal"
         footer={
@@ -82,6 +85,7 @@ export default function EnrollForm(props: EnrollFormProps) {
             <div>
               {isDisable ? (
                 <Button
+                  disabled={!countdown}
                   block
                   type="submit"
                   color="primary"
@@ -92,6 +96,7 @@ export default function EnrollForm(props: EnrollFormProps) {
                 </Button>
               ) : (
                 <Button
+                  disabled={!countdown}
                   block
                   type="submit"
                   color="primary"
@@ -102,6 +107,14 @@ export default function EnrollForm(props: EnrollFormProps) {
                 </Button>
               )}
             </div>
+            {!user && (
+              <div className="flex justify-between mt-2">
+                <span></span>
+                <Link href={`/login?redirect=/activity/${activity?.id}/detail`}>
+                  去登录
+                </Link>
+              </div>
+            )}
           </>
         }
       >
@@ -175,9 +188,15 @@ export default function EnrollForm(props: EnrollFormProps) {
         <Form.Item noStyle>
           <div className={style.alert}>收费不退！请谨慎报名！</div>
 
-          <div className={style.enrollTime}>报名时间 2024-04-29 10:00:00</div>
+          <div className={style.enrollTime}>
+            报名时间 &nbsp;
+            {dayjs(activity?.activityStartTime).format("YYYY-MM-DD HH:mm:ss")}
+          </div>
           <div className={style.countdown}>
-            报名倒计时 <span className={style.alertText}>2天1小时21分49秒</span>
+            报名倒计时：{" "}
+            <span className={style.alertText}>
+              {countdown ? countdown : "报名已截至!!!"}
+            </span>
           </div>
         </Form.Item>
       </Form>

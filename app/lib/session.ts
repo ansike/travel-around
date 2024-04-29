@@ -4,8 +4,8 @@ import { SessionPayload } from "@/lib/definitions";
 import { cookies } from "next/headers";
 
 const secretKey = process.env.SESSION_SECRET;
-console.log({secretKey})
 const encodedKey = new TextEncoder().encode(secretKey);
+console.log("[secretKey]", secretKey);
 
 export async function encrypt(payload: SessionPayload) {
   return new SignJWT(payload)
@@ -58,5 +58,5 @@ export async function updateSession() {
 }
 
 export function deleteSession() {
-  cookies().delete('session')
+  cookies().delete("session");
 }

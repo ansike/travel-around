@@ -67,7 +67,7 @@ export async function POST(req: NextRequest) {
       data: { ...data, userId: user.userId },
       include: { user: true, activity: true },
     });
-    return Response.json({ errorNo: 0, data: enroll });
+    return Response.json({ errNo: 0, data: enroll });
   } catch (error: any) {
     console.log(error);
     return Response.json({
