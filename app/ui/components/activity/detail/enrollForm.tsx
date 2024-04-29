@@ -190,7 +190,7 @@ export default function EnrollForm(props: EnrollFormProps) {
 
           <div className={style.enrollTime}>
             报名时间 &nbsp;
-            {dayjs(activity?.activityStartTime).format("YYYY-MM-DD HH:mm:ss")}
+            {dayjs(activity?.enrollStartTime).format("YYYY-MM-DD HH:mm:ss")}
           </div>
           <div className={style.countdown}>
             报名倒计时：{" "}

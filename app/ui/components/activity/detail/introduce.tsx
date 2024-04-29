@@ -18,11 +18,11 @@ export default function Introduce(props: IntroduceProps) {
       </div>
       <div className="text-red-500">
         报名开始时间：
-        {dayjs(activity?.activityStartTime).format("YYYY-MM-DD HH:mm:ss")}
+        {dayjs(activity?.enrollStartTime).format("YYYY-MM-DD HH:mm:ss")}
       </div>
       <div className={`${style.segment} text-red-500`}>
         报名截至时间：
-        {dayjs(activity?.activityEndTime).format("YYYY-MM-DD HH:mm:ss")}
+        {dayjs(activity?.enrollEndTime).format("YYYY-MM-DD HH:mm:ss")}
       </div>
       <div className={style.segment}>
         <Image
