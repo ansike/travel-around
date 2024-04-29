@@ -27,8 +27,10 @@ export function LoginButton() {
   );
 }
 
-export function LoginForm() {
-  const [state, action] = useFormState(login, undefined);
+export function LoginForm(props: { redirect: string }) {
+  const { redirect } = props;
+  const loginWithRedirect = login.bind(null, redirect || "/tab/user");
+  const [state, action] = useFormState(loginWithRedirect, undefined);
   return (
     <form action={action} className="mt-10 w-72">
       <Input

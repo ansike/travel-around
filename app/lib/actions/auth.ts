@@ -47,7 +47,11 @@ export async function signup(state: FormState, formData: FormData) {
   redirect("/tab/home");
 }
 
-export async function login(state: FormState, formData: FormData) {
+export async function login(
+  redirectStr: string,
+  state: FormState,
+  formData: FormData
+) {
   // Validate form fields
   const validatedFields = LoginFormSchema.safeParse({
     phone: formData.get("phone"),
@@ -86,7 +90,7 @@ export async function login(state: FormState, formData: FormData) {
       await createSession(user.id);
     } else {
       // 密码不匹配，返回失败
-      return { success: false, message: '手机号和密码不匹配' };
+      return { success: false, message: "手机号和密码不匹配" };
     }
     // 4. Create user session
     // 5. Redirect user
@@ -96,7 +100,8 @@ export async function login(state: FormState, formData: FormData) {
       message: `登录时出错了(${error.message}).`,
     };
   }
-  redirect("/tab/user");
+
+  redirect(redirectStr);
 }
 export async function logout() {
   deleteSession();
