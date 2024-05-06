@@ -93,21 +93,24 @@ sh start.sh
 
 ```shell
 # docker镜像中导出到sql文件
-pg_dump -U myuser -d travel -f back.sql
+docker exec -i travel-around_db_1 bash -c 'pg_dump -U myuser -d travel -f back.sql'
 
 # sql文件移动到宿主机上或者其他位置
-docker cp travel-around-db-1:/back.sql ~/
+docker cp travel-around_db_1:/back.sql ~/
 ```
 
 ## 导入数据
 
 ```shell
 # 将sql文件复制到镜像中
-docker cp ~/back.sql travel-around-db-1:/back.sql
+docker cp ~/back.sql travel-around_db_1:/back.sql
 
 # 不存在database则创建，postgres中居然不存在if not exist 类似能力
-docker exec -i travel-around-db-1 psql -U myuser -tc "SELECT 1 FROM pg_database WHERE datname = 'travel'" | grep -q 1 || docker exec -i travel-around-db-1 psql -U myuser -c "CREATE DATABASE travel"
+docker exec -i travel-around_db_1 psql -U myuser -tc "SELECT 1 FROM pg_database WHERE datname = 'travel'" | grep -q 1 || docker exec -i travel-around_db_1 psql -U myuser -c "CREATE DATABASE travel"
 
 # 执行psql命令导入表结构和数据
-docker exec -i travel-around-db-1 bash -c 'psql -U myuser -d travel < /back.sql'
+docker exec -i travel-around_db_1 bash -c 'psql -U myuser -d travel < /back.sql'
 ```
+
+注意：
+windows 和 linux 中 container 的名字不一样，windows 中为 travel-around-db-1， linux 中为 travel-around_db_1
