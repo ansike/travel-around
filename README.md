@@ -37,12 +37,6 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/deploym
 
 <!-- icon https://www.iconfont.cn/search/index?searchType=icon&q=travel&page=7&tag=complex -->
 
-## 启动依赖服务
-
-```shell
-docker-compose up -d
-```
-
 ## 使用 prisma
 
 https://www.prisma.io/migrate
@@ -69,8 +63,51 @@ https://juejin.cn/post/7153283997060202527#heading-16
    npx ts-node ./prisma/seed.ts
    ```
 
-### 后台运行
+# 服务部署步骤
+
+## 1. 启动依赖服务
 
 ```shell
-nohup yarn start & disown
+# 创建数据目录
+mkdir -p ~/data/postgres
+
+# 启动服务
+docker-compose up -d
+```
+
+## 2. 执行数据库初始化
+
+```shell
+yarn migrateDB
+```
+
+### 启动服务
+
+```shell
+sh start.sh
+```
+
+# 数据库迁移步骤
+
+## 导出数据
+
+```shell
+# docker镜像中导出到sql文件
+pg_dump -U myuser -d travel -f back.sql
+
+# sql文件移动到宿主机上或者其他位置
+docker cp travel-around-db-1:/back.sql ~/
+```
+
+## 导入数据
+
+```shell
+# 将sql文件复制到镜像中
+docker cp ~/back.sql travel-around-db-1:/back.sql
+
+# 不存在database则创建，postgres中居然不存在if not exist 类似能力
+docker exec -i travel-around-db-1 psql -U myuser -tc "SELECT 1 FROM pg_database WHERE datname = 'travel'" | grep -q 1 || docker exec -i travel-around-db-1 psql -U myuser -c "CREATE DATABASE travel"
+
+# 执行psql命令导入表结构和数据
+docker exec -i travel-around-db-1 bash -c 'psql -U myuser -d travel < /back.sql'
 ```
