@@ -1,5 +1,5 @@
 "use client";
-import { isMobileDevice } from "@/lib/util";
+import { useMobileDevice } from "@/lib/hooks";
 import { NavBar } from "antd-mobile";
 import { useRouter } from "next/navigation";
 
@@ -9,7 +9,7 @@ type DetailHeaderProps = {
 export default function DetailHeader(props: DetailHeaderProps) {
   const { title } = props;
   const router = useRouter();
-  const isMobile = isMobileDevice();
+  const isMobile = useMobileDevice();
 
   // h5 才能返回
   return isMobile ? (

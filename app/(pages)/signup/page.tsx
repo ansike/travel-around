@@ -1,3 +1,4 @@
+'use client'
 import DetailHeader from "@/ui/components/detailHeader";
 import { SignupForm } from "@/ui/signup-form";
 import Logo from "@/ui/components/logo";
