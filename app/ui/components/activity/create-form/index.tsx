@@ -1,13 +1,12 @@
 "use client";
 
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect } from "react";
 import { Button, DatePicker, Form, Input, InputNumber, message } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { UploadImage } from "../../upload-image";
-// import MyEditor from "../../my-editor";
-import "./style.css";
 import dayjs from "dayjs";
 import dynamic from "next/dynamic";
+import "./style.css";
 
 const MyEditor = dynamic(
   // 引入对应的组件 设置的组件参考上面的wangEditor react使用文档
@@ -19,11 +18,11 @@ const { RangePicker } = DatePicker;
 
 type CreateActivityFormProps = {
   id?: string;
+  callback?: () => void;
 };
 export function CreateActivityForm(props: CreateActivityFormProps) {
-  const { id } = props;
+  const { id, callback } = props;
   const [form] = useForm();
-  const [messageApi, contextHolder] = message.useMessage();
 
   const getActivity = useCallback(async (id: string) => {
     const res = await fetch(`/api/activity?id=${id}`);
@@ -78,20 +77,20 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
           }),
         });
         const data = await res.json();
-        console.log(data);
-        messageApi.success("编辑成功");
+        message.success("编辑成功");
+
       } else {
         const res = await fetch("/api/activity", {
           method: "POST",
           body: JSON.stringify(body),
         });
         const data = await res.json();
-        console.log(data);
-        messageApi.success("创建成功");
+        message.success("创建成功");
       }
+      callback?.();
     } catch (error) {
       console.error(error);
-      messageApi.success("失败");
+      message.error("失败");
     }
   };
 
@@ -104,10 +103,10 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
           rules={[{ required: true, message: "请输入活动标题" }]}
         >
           <Input
-            size="small"
             autoComplete="off"
             placeholder="请输入活动标题"
             maxLength={120}
+            style={{ width: 352 }}
           />
         </Form.Item>
         <Form.Item
@@ -116,10 +115,10 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
           rules={[{ required: true, message: "请设置活动地点" }]}
         >
           <Input
-            size="small"
             autoComplete="new-password"
             name="location"
             placeholder="请输入活动地点"
+            style={{ width: 352 }}
           />
         </Form.Item>
         <Form.Item
@@ -127,14 +126,14 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
           name="enrollTime"
           rules={[{ required: true, message: "请设置活动的报名时间" }]}
         >
-          <RangePicker size="small" showTime />
+          <RangePicker showTime />
         </Form.Item>
         <Form.Item
           label="活动时间："
           name="activityTime"
           rules={[{ required: true, message: "请设置活动时间" }]}
         >
-          <RangePicker size="small" showTime />
+          <RangePicker showTime />
         </Form.Item>
         <Form.Item
           label="人数限制："
@@ -142,7 +141,7 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
           initialValue={30}
           rules={[{ required: true, message: "请设置活动人数上限" }]}
         >
-          <InputNumber size="small" min={1} />
+          <InputNumber min={1} />
         </Form.Item>
         <Form.Item
           label="活动封面："
@@ -158,14 +157,17 @@ export function CreateActivityForm(props: CreateActivityFormProps) {
         >
           <MyEditor />
         </Form.Item>
-        <Form.Item className="flex justify-center">
-          <Button type="primary" onClick={save}>
+        <div className="flex justify-center">
+          <Button
+            style={{ margin: "auto", width: 100 }}
+            size="large"
+            type="primary"
+            onClick={save}
+          >
             保存
           </Button>
-        </Form.Item>
+        </div>
       </Form>
-      {contextHolder}
-      {/* <MyEditor /> */}
     </>
   );
 }

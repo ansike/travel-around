@@ -1,6 +1,6 @@
 import "@/global.css";
+
 import { ConfigProvider, ThemeConfig } from "antd";
-// import "./layout.css";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -23,6 +23,6 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return <ConfigProvider theme={theme}>
-  <div className="h5 h-full w-full">{children}</div>;
+  <div className="h-full w-full">{children}</div>
 </ConfigProvider>
 }
