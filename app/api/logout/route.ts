@@ -1,10 +1,9 @@
-import { logout } from "@/lib/actions/auth";
-import prisma from "@/lib/prisma";
+import { cookies } from "next/headers";
 import { NextRequest } from "next/server";
 
 export async function POST(req: NextRequest) {
   try {
-    logout();
+    cookies().delete("session");
     return Response.json({ messge: "success" });
   } catch (error: any) {
     return Response.json({ message: error?.message || "server error" });

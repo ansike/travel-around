@@ -1,4 +1,3 @@
-"use client";
 import { User } from "@prisma/client";
 import { Button, Image, Toast } from "antd-mobile";
 import { RightOutline } from "antd-mobile-icons";
@@ -17,7 +16,7 @@ export default function UserPage(props: PageProps) {
         method: "POST",
       });
       Toast.show("登出成功");
-      router.replace("/tab/home");
+      router.replace("/login");
     } catch (error) {
       console.log(error);
     }
